@@ -16,9 +16,10 @@
 #include <Arduino.h>
 #include <HID-Project.h>
 
-#define LOOP_MS					(20)
+#define LOOP_MS					(50)
 #define TOF_MAX_VALUE			(3000)
-#define JOYSTICK_MAX_VALUE		(16000)
+#define JOYSTICK_MIN_VALUE		(12000)
+#define JOYSTICK_MAX_VALUE		(20000)
 
 #include <Wire.h>
 #include <VL53L0X.h>			// https://github.com/pololu/vl53l0x-arduino
@@ -47,7 +48,7 @@ void loop()
 	if (tof.timeoutOccurred())
 		dist = 0;
 
-	Gamepad.xAxis(map(dist, 0, TOF_MAX_VALUE, 0, JOYSTICK_MAX_VALUE));
+	Gamepad.xAxis(map(dist, 0, TOF_MAX_VALUE, JOYSTICK_MIN_VALUE, JOYSTICK_MAX_VALUE));
 	Gamepad.write();
 	delay(LOOP_MS);
 }
